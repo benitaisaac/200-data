@@ -13,6 +13,8 @@ def read_file():
         data = json.load(file)
         return data
 
+# TODO: store deleted data in a file called deleted_info.csv
+# TODO: Make sure user can update the memory and original file without duplicate entries 
 def del_entry(country_dict, country_slug):
     del country_dict[country_slug]
 
@@ -22,6 +24,12 @@ def update_slug(full_dict, s, val, ranking):
 
 def display_slug(full_dict, s):
     print(full_dict[s])
+
+def compare_slugs(countries_dict):
+    s1 = input("Enter first slug name: ")
+    s2 = input("Enter second slug name: ")
+# TODO: print values and ranking of s1 and s2 
+    print(f"{s1}: Value: {countries_dict[s1]['value']} and Ranking: {countries_dict[s1]['ranking']} {s2} Value: {countries_dict[s2]['value']} and Ranking: {countries_dict[s2]['ranking']}")
 
 def get_slug_name():
     s = input("Enter a slug name: ")
@@ -44,21 +52,27 @@ def main():
                     2. Update a slug 
                     3. Delete a slug
                     4. Update a slug
+                    5. Compare two slugs
                     e. Exit
                     
                     Enter Your Choice: ''')
-        if choice not in ['1', '2', '3', '4', 'e']:
+        if choice not in ['1', '2', '3', '4', '5', 'e']:
             print("Invalid choice.")
             continue
         
         if choice == '1':
             sluggy = get_slug_name()
             display_slug(all_countries, sluggy)
-        if choice == '2':
+        elif choice == '2':
             sluggy = get_slug_name()
             val = input("Please type in new value: ")
             rank = input("Please type in new ranking: ")
             update_slug(all_countries, sluggy, val, rank)
+        elif choice == '3':
+            sluggy = get_slug_name()
+            del_entry(all_countries, sluggy)
+        elif choice == '5':
+            compare_slugs(all_countries)
         elif choice == 'e':
             break
 
