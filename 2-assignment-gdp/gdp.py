@@ -1,12 +1,12 @@
 import csv
 import json
 import os
+import pandas
 
 out_file_name = "all_countries.json"
 gdp_csv_file = "gdp.csv"
 gdp_csv_file_deleted = "deleted_info.csv"
 
-#create functions to call in main()
 def save_file(dict_entries):
     with open(out_file_name, "w") as file:
         json.dump(dict_entries, file, indent=4)
@@ -38,7 +38,7 @@ def combined_ppp(countries_dict):
     val_s1 = int(val_s1)
     val_s2 = int(val_s2)
     c_ppp = val_s1 + val_s2
-    print(f"The conbined PPP of {s1} and {s2} is ${c_ppp:,.2f}")
+    print(f"The combined PPP of {s1} and {s2} is ${c_ppp:,.2f}")
 
 def display_slug(full_dict, s):
     print(full_dict[s])
@@ -72,6 +72,12 @@ def write_gdp(input_dict, file_name):
         writer = csv.writer(csvfile)
         writer.writerows(data)
 
+def merg_files(file_1, file_2):
+    f1 = pandas.read_csv(file_1)
+    f2 = pandas.read_csv(file_2)
+    merged_file = pandas.merge(f1, f2, how='outer', sort=True)
+    merged_file.to_csv(gdp_csv_file, index=False)
+
 def main():
     all_countries = read_gdp(gdp_csv_file)
 
@@ -82,10 +88,11 @@ def main():
                     3. Delete a slug
                     4. Compare two slugs
                     5. View Combined PPP
+                    6. Merge Files 
                     e. Exit
                     
                     Enter Your Choice: ''')
-        if choice not in ['1', '2', '3', '4', '5', 'e']:
+        if choice not in ['1', '2', '3', '4', '5', '6', 'e']:
             print("Invalid choice.")
             continue
         
@@ -104,13 +111,10 @@ def main():
             compare_slugs(all_countries)
         elif choice == '5':
             combined_ppp(all_countries)
+        elif choice == '6':
+            merg_files(gdp_csv_file, gdp_csv_file_deleted)
+            all_countries = read_gdp(gdp_csv_file)
         elif choice == 'e':
             break
 
 main()
-    
-
-
-
-
-
