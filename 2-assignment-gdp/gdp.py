@@ -76,13 +76,13 @@ def write_gdp(input_dict, file_name):
         writer.writerows(data)
 
 def merg_files(file_1, file_2):
-    print(f"***File 1: {file_1}")
-    print(f"***File 2: {file_2}")
+    #print(f"***File 1: {file_1}")
+    #print(f"***File 2: {file_2}")
 
     f1 = pandas.read_csv(file_1)
     f2 = pandas.read_csv(file_2)
     merged_file = pandas.merge(f1, f2, how='outer', sort=True)
-    print(f"****merged file is: {merged_file}")
+    #print(f"****merged file is: {merged_file}")
     merged_file.to_csv(gdp_csv_file, index=False)
 
 def main():
