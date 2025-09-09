@@ -3,9 +3,12 @@ import json
 import os
 import pandas
 
+BASE_DIR = os.path.dirname(__file__)
+
+
 out_file_name = "all_countries.json"
-gdp_csv_file = "gdp.csv"
-gdp_csv_file_deleted = "deleted_info.csv"
+gdp_csv_file = BASE_DIR + "/" + "gdp.csv"
+gdp_csv_file_deleted = BASE_DIR + "/" "deleted_info.csv"
 
 def save_file(dict_entries):
     with open(out_file_name, "w") as file:
@@ -73,9 +76,13 @@ def write_gdp(input_dict, file_name):
         writer.writerows(data)
 
 def merg_files(file_1, file_2):
+    print(f"***File 1: {file_1}")
+    print(f"***File 2: {file_2}")
+
     f1 = pandas.read_csv(file_1)
     f2 = pandas.read_csv(file_2)
     merged_file = pandas.merge(f1, f2, how='outer', sort=True)
+    print(f"****merged file is: {merged_file}")
     merged_file.to_csv(gdp_csv_file, index=False)
 
 def main():
